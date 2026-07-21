@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>hello world | pevaio place</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet" />
+    <link href="../style.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script>
+      $(function() {
+        $("#header").load("../pieces/header.html");
+        $("#sidebar").load("../pieces/sidebar.html");
+      });
+    </script>
+  </head>
+  <body>
+    <div id="container">
+      <div id="flex">
+      <div id="sidebar"></div>
+        <main>
+          <h1 id="postTitleH1"></h1>
+          <h4 id="postDate"></h4>
+          <p>hello world!</p>
+          <p>in this blog i'm going to write about stuff i like which is mainly what i mentioned in <a href="../index.html">home</a>. i hope you like it!</p>
+      <div id="nextprev"></div>
+      </main>
+    </div>
+    
+    <footer id="footer"></footer>
+    <div id="footer">pevaio @ 2024 - today</div>
+    </div>
+  <script src="../script.js"></script>
+  </body>
+</html>
