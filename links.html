@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>pevaio place</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous"></script>
+    <script>
+      $(function () {
+        $("#header").load("pieces/header.html");
+        $("#sidebar").load("pieces/sidebar.html");
+      });
+    </script>
+  </head>
+  <body>
+    <div id="container">
+      <div id="flex">
+        <div id="sidebar"></div>
+        <main>
+          <h1>welcome to my personal collection of links!</h1>
+          <h3>here are some sites i find nice and worth sharing:</h3>
+          <h3>games</h3>
+          <ul>
+            <li><a href="https://dos.zone">dos games</a></li>
+            <li><a href="https://minesweeper.online">minesweeper</a></li>
+          </ul>
+          <h3>learning</h3>
+          <ul>
+            <li><a href="https://lipu-sona.pona.la/">toki pona</a></li>
+            <li><a href="https://edx.org/">free courses</a></li>
+          </ul>
+          <h3>tools</h3>
+          <ul>
+            <li><a href="https://hyperdraft.rosano.ca/en/write">notepad</a></li>
+            <li><a href="https://app.flowoss.com/">epub reader</a></li>
+          </ul>
+        </main>
+      </div>
+      <footer id="footer">pevaio @ 2024 - today</footer>
+    </div>
+  </body>
+</html>

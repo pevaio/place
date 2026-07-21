@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>skrevr</title>
+        <style>
+            * {
+                font-family: Courier, monospace !important;
+            }
+
+            body {
+                font-family: Courier, monospace;
+                margin: 0;
+                padding: 0;
+                background: #000; /* Night mode background */
+                color: #fff; /* Night mode text color */
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                position: relative;
+                transition:
+                    background-color 0.3s ease,
+                    color 0.3s ease;
+            }
+            body.day-mode {
+                background: #fff; /* Day mode background */
+                color: #000; /* Day mode text color */
+            }
+
+            a {
+                color: #bfbfbf;
+            }
+
+            #editor {
+                width: 50vw;
+                height: 70vh;
+                padding: 20px;
+                font-size: 20px;
+                border: none;
+                outline: none;
+                resize: none;
+                background: transparent;
+                color: inherit;
+                transition: opacity 1s linear;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: justify;
+                caret-color: #fff;
+                caret-width: 5px;
+                font-family: "Consolas", monospace;
+                padding-top: 30px;
+            }
+            #editor::selection {
+                background: #fff;
+                color: #fff;
+            }
+
+            /*
+        #editorFade {
+            width: 80vw;
+            height: 70vh;
+            padding: 20px;
+            border: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding-top: 30px;
+            background: linear-gradient(180deg, rgba(243,237,224,1) 0%, rgba(243,237,224,0) 100%);
+            pointer-events:none;
+        }
+        */
+
+            #toolbar {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                background: transparent;
+                padding: 10px 15px;
+                border-radius: 5px;
+                z-index: 9999;
+            }
+            button {
+                background: rgba(0, 0, 0, 0.07);
+                color: #555;
+                border: none;
+                padding: 8px 12px;
+                cursor: pointer;
+                font-size: 14px;
+                border-radius: 3px;
+                opacity: 0.7;
+            }
+            button:hover {
+                opacity: 1;
+            }
+            #wordCount,
+            #charCount,
+            #timer {
+                color: inherit;
+                font-size: 16px;
+                margin-top: 5px;
+                text-align: center;
+            }
+            #timer {
+                display: block;
+                margin-top: 5px;
+                text-align: center;
+            }
+            #editor::before {
+                content: "Start typing...";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: #555;
+                font-size: 20px;
+                pointer-events: none;
+                opacity: 0.5;
+            }
+            #editor:not(:placeholder-shown)::before {
+                content: "";
+            }
+            .footer {
+                position: absolute;
+                bottom: 10px;
+                font-size: 18px;
+                font-style: italic;
+                color: #fff;
+                white-space: nowrap;
+                text-align: center;
+                opacity: 0;
+                animation: fadeInOut 5s infinite;
+            }
+
+            @keyframes fadeInOut {
+                0% {
+                    opacity: 0;
+                }
+                50% {
+                    opacity: 0.3;
+                }
+                100% {
+                    opacity: 0;
+                }
+            }
+
+            .theme-toggle {
+                position: absolute;
+                top: 50px; /* Adjust position to below fullscreen button */
+                right: 10px; /* Keep it on the right side */
+                background: #444;
+                color: #fff;
+                border: none;
+                padding: 8px 12px;
+                cursor: pointer;
+                font-size: 14px;
+                border-radius: 3px;
+            }
+
+            .theme-toggle:hover {
+                background: #555;
+            }
+
+            .toggle-container {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+            }
+
+            .switch {
+                position: absolute;
+                right: 10px;
+                top: 50px;
+                display: block;
+                width: 60px;
+                height: 34px;
+            }
+
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.35);
+                transition: 0.4s;
+                border-radius: 34px;
+            }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                border-radius: 50%;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                transition: 0.4s;
+            }
+
+            input:checked + .slider {
+                background-color: #000; /* Night mode toggle background */
+            }
+
+            input:checked + .slider:before {
+                transform: translateX(26px);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="toolbar">
+            <button onclick="clearText()">clear</button>
+            <button onclick="exportText()">export to txt</button>
+            <span id="wordCount">words: 0</span>
+            <span id="charCount">chars: 0</span>
+            <span id="timer">0:00</span>
+            <button onclick="toggleTimer()">toggle timer</button>
+        </div>
+        <textarea id="editor" placeholder="start typing..."></textarea>
+        <div id="editorFade"></div>
+        <div class="footer" id="footer">skrevr</div>
+
+        <div class="toggle-container">
+            <label class="switch">
+                <input type="checkbox" id="theme-toggle" onclick="toggleTheme()" />
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <script>
+            const editor = document.getElementById("editor");
+            const wordCount = document.getElementById("wordCount");
+            const charCount = document.getElementById("charCount");
+            const timerDisplay = document.getElementById("timer");
+            const footer = document.getElementById("footer");
+            let timerInterval, startTime;
+
+            editor.value = localStorage.getItem("draft") || "";
+            updateStats();
+
+            editor.addEventListener("input", () => {
+                localStorage.setItem("draft", editor.value);
+                updateStats();
+            });
+
+            function updateStats() {
+                const text = editor.value.trim();
+                wordCount.innerText = `Words: ${text.split(/\s+/).filter(Boolean).length}`;
+                charCount.innerText = `Chars: ${text.length}`;
+            }
+
+            function clearText() {
+                if (confirm("Clear all text?")) {
+                    editor.value = "";
+                    localStorage.removeItem("draft");
+                    updateStats();
+                }
+            }
+
+            function exportText() {
+                const text = editor.value.trim();
+                const blob = new Blob([text], { type: "text/plain" });
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "skrevr.txt";
+                link.click();
+            }
+
+            function toggleTimer() {
+                if (timerInterval) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                } else {
+                    startTime = Date.now();
+                    timerInterval = setInterval(() => {
+                        let elapsed = Math.floor((Date.now() - startTime) / 1000);
+                        let minutes = Math.floor(elapsed / 60);
+                        let seconds = elapsed % 60;
+                        timerDisplay.innerText = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+                    }, 1000);
+                }
+            }
+
+            function toggleTheme() {
+                document.body.classList.toggle("day-mode");
+                footer.style.color = document.body.classList.contains("day-mode") ? "#fff" : "rgba(109, 55, 77, 1.0)";
+            }
+        </script>
+    </body>
+</html>
