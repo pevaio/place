@@ -1,0 +1,11 @@
+=====
+BUTTONS BACKUP
+=====
+
+    
+<a href="https://neocities.org"><img src="../assets/neocities_hosted2.gif" style="width: 88px" /></a>
+<img src="../assets/anythingbut.gif" style="width: 88px" />
+<img src="../assets/madewith.gif" style="width: 88px" />
+<img src="../assets/buttons_now.gif" style="width: 88px" />
+<img src="../assets/internetprivacy.gif" style="width: 88px" />
+<img src="../assets/hasmile.gif" style="width: 88px" />
