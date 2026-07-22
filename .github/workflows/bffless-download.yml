@@ -1,5 +1,4 @@
 - name: BFFLESS Download Artifact
-# You may pin to the exact commit or the version.
 uses: bffless/download-artifact@v1.1.0
 with:
   # Base URL of the BFFLESS hosting platform
