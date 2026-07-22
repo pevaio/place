@@ -1,11 +1,15 @@
-name: BFFLESS Upload Artifact
-# You may pin to the exact commit or the version.
-# uses: bffless/upload-artifact@74ed7f7fff01a596ccf39067ed63d74a909f8351
-uses: bffless/upload-artifact@v1.1.1
-with:
-# Build directory to zip and upload
-  path: dist
-  # Base URL of the BFFLESS hosting platform
-  api-url: ${{ vars.BFFLESS_URL }}
-  # API key for authentication (X-API-Key header)
-  api-key: ${{ secrets.BFFLESS_API_KEY }}
+jobs:
+  download-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: BFFLESS Upload Artifact
+        uses: bffless/upload-artifact@v1.1.1
+        with:
+          # Build directory to zip and upload
+          path: dist
+          # Base URL of the BFFLESS hosting platform
+          api-url: ${{ vars.BFFLESS_URL }}
+          # API key for authentication (X-API-Key header)
+          api-key: ${{ secrets.BFFLESS_API_KEY }}
+          # Branch to download from (gets latest deployment)
+          branch: main
