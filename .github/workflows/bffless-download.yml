@@ -1,4 +1,4 @@
-name: BFFLESS Download Artifact
+- name: BFFLESS Download Artifact
 # You may pin to the exact commit or the version.
 # uses: bffless/download-artifact@a9310cca5b3391a1ab718d9f04466ffa62c2dae3
 uses: bffless/download-artifact@v1.1.0
@@ -6,6 +6,20 @@ with:
   # Base URL of the BFFLESS hosting platform
   api-url: ${{ vars.BFFLESS_URL }}
   # API key for authentication (X-API-Key header)
-  api-key: ${{ secrets.BFFLESS_API_KEY }}
+  api-key: {{ secrets.BFFLESS_API_KEY }}
+  # Path of files to download (e.g., ./dist, apps/frontend/dist). Defaults to ./ (entire artifact)
+  source-path: # optional, default is ./
+  # Deployment alias to download from (e.g., production, preview)
+  alias: # optional
+  # Specific commit SHA to download from
+  commit-sha: # optional
   # Branch to download from (gets latest deployment)
   branch: main
+  # Where to save downloaded files (default: same as source-path)
+  output-path: # optional
+  # Repository in owner/repo format (default: current repository)
+  repository: # optional
+  # Overwrite existing files at output-path
+  overwrite: # optional, default is false
+  # Write a GitHub Step Summary
+  summary: # optional, default is true
