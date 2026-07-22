@@ -10,16 +10,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Prepare static files
-        run: |
-          mkdir -p dist
-          rsync -av --exclude='.git*' --exclude='dist' ./ dist/
-
       # Upload the build
       - uses: bffless/upload-artifact@v1.1.1
         with:
-          path: dist
+          path: .
           api-url: ${{ vars.BFFLESS_URL }}
           api-key: ${{ secrets.BFFLESS_API_KEY }}
           branch: main
-
