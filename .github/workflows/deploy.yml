@@ -1,0 +1,37 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - run: npm ci && npm run build
+
+      # Upload the build
+      - uses: bffless/upload-artifact@v1.1.1
+        with:
+          path: dist
+          api-url: ${{ vars.BFFLESS_URL }}
+          api-key: ${{ secrets.BFFLESS_API_KEY }}
+          branch: main
+
+  e2e-test:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      # Download the deployed build
+      - uses: bffless/download-artifact@v1.1.0
+        with:
+          source-path: dist
+          api-url: ${{ vars.BFFLESS_URL }}
+          api-key: ${{ secrets.BFFLESS_API_KEY }}
+          branch: main
+
+      - run: npx serve dist & npx playwright test
