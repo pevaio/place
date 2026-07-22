@@ -13,9 +13,7 @@ jobs:
       - name: Prepare static files
         run: |
           mkdir -p dist
-          
-          cp index.html script.js style.css dist/ || true
-          cp -r assets pieces posts dist/ || true
+          rsync -av --exclude='.git*' --exclude='dist' ./ dist/
 
       # Upload the build
       - uses: bffless/upload-artifact@v1.1.1
@@ -24,3 +22,4 @@ jobs:
           api-url: ${{ vars.BFFLESS_URL }}
           api-key: ${{ secrets.BFFLESS_API_KEY }}
           branch: main
+
