@@ -12,8 +12,9 @@ jobs:
 
       - name: Prepare site files
         run: |
-          mkdir dist
-          rsync -av --exclude='.git' --exclude='.github' --exclude='dist' . dist/
+          mkdir -p dist
+          cp -r . dist/ || true
+          rm -rf dist/.git dist/.github dist/dist node_modules .gitignore .github
 
       - uses: bffless/upload-artifact@v1.1.1
         with:
