@@ -9,10 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - run: npm ci && npm run build
+      - name: Prepare static files
+        run: |
+          mkdir dist
+          cp -r index.html script.js style.css assets pieces posts dist/ 2>/dev/null || true
 
       # Upload the build
       - uses: bffless/upload-artifact@v1.1.1
@@ -21,6 +22,7 @@ jobs:
           api-url: ${{ vars.BFFLESS_URL }}
           api-key: ${{ secrets.BFFLESS_API_KEY }}
           branch: main
+
 
   e2e-test:
     needs: deploy
