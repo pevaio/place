@@ -15,7 +15,7 @@ jobs:
       - uses: bffless/upload-artifact@v1
         id: deploy
         with:
-          path: dist
+          path: .
           api-url: ${{ vars.BFFLESS_URL }}
           api-key: ${{ secrets.BFFLESS_API_KEY }}
           alias: production
