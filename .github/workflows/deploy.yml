@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy to BFFless
 
 on:
   push:
@@ -9,16 +9,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Prepare site files
-        run: |
-          mkdir -p dist
-          cp -r . dist/ || true
-          rm -rf dist/.git dist/.github dist/dist node_modules .gitignore .github
-
-      - uses: bffless/upload-artifact@v1.1.1
         with:
-          path: ./dist
+          fetch-depth: 0
+
+      - uses: bffless/upload-artifact@v1
+        id: deploy
+        with:
+          path: dist
           api-url: ${{ vars.BFFLESS_URL }}
           api-key: ${{ secrets.BFFLESS_API_KEY }}
-          branch: main
+          alias: production
+          description: 'Production deploy from ${{ github.sha }}'
+
+      - run: echo "Deployed to ${{ steps.deploy.outputs.alias-url }}"
