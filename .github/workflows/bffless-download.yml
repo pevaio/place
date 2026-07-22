@@ -1,4 +1,4 @@
-- name: BFFLESS Download Artifact
+name: BFFLESS Download Artifact
 uses: bffless/download-artifact@v1.1.0
 with:
   # Base URL of the BFFLESS hosting platform
