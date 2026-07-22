@@ -1,9 +1,13 @@
-- name: BFFLESS Download Artifact
-  uses: bffless/download-artifact@v1.1.0
-  with:
-    # Base URL of the BFFLESS hosting platform
-    api-url: ${{ vars.BFFLESS_URL }}
-    # API key for authentication (X-API-Key header)
-    api-key: ${{ secrets.BFFLESS_API_KEY }}
-    # Branch to download from (gets latest deployment)
-    branch: main
+jobs:
+  download-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: BFFLESS Download Artifact
+        uses: bffless/download-artifact@v1.1.0
+        with:
+          # Base URL of the BFFLESS hosting platform
+          api-url: ${{ vars.BFFLESS_URL }}
+          # API key for authentication (X-API-Key header)
+          api-key: ${{ secrets.BFFLESS_API_KEY }}
+          # Branch to download from (gets latest deployment)
+          branch: main
