@@ -8,14 +8,19 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      # Download most recent commit
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      # Remove .git
+      - name: Clean git metadata
+        run: rm -rf .git
 
       # Upload
       - uses: bffless/upload-artifact@v1.1.1
         with:
           path: .
-          exclude: |
-            .git/**
           api-url: ${{ vars.BFFLESS_URL }}
           api-key: ${{ secrets.BFFLESS_API_KEY }}
           branch: main
