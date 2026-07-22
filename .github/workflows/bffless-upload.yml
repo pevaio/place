@@ -1,3 +1,10 @@
+name: BFFLESS Upload
+
+on:
+  push:
+    branches:
+      - main
+      
 jobs:
   download-job:
     runs-on: ubuntu-latest
