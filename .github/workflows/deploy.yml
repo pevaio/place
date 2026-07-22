@@ -9,11 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      # Upload
+      
+      - name: Prepare site files
+        run: |
+          cp -r public/* .
+          rm -rf public
+          
       - uses: bffless/upload-artifact@v1.1.1
         with:
-          path: ./public
+          path: .
           api-url: ${{ vars.BFFLESS_URL }}
           api-key: ${{ secrets.BFFLESS_API_KEY }}
           branch: main
