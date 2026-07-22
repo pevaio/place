@@ -9,15 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
 
-      - name: Ignore
-        run: rm -rf .git
+      - name: Prepare site files
+        run: |
+          mkdir dist
+          rsync -av --exclude='.git' --exclude='.github' --exclude='dist' . dist/
 
       - uses: bffless/upload-artifact@v1.1.1
         with:
-          path: .
+          path: ./dist
           api-url: ${{ vars.BFFLESS_URL }}
           api-key: ${{ secrets.BFFLESS_API_KEY }}
           branch: main
