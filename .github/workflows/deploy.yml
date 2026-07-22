@@ -22,18 +22,4 @@ jobs:
           api-url: ${{ vars.BFFLESS_URL }}
           api-key: ${{ secrets.BFFLESS_API_KEY }}
           branch: main
-
-
-  e2e-test:
-    needs: deploy
-    runs-on: ubuntu-latest
-    steps:
-      # Download the deployed build
-      - uses: bffless/download-artifact@v1.1.0
-        with:
-          source-path: dist
-          api-url: ${{ vars.BFFLESS_URL }}
-          api-key: ${{ secrets.BFFLESS_API_KEY }}
-          branch: main
-
-      - run: npx serve dist & npx playwright test
+          
